@@ -2,5 +2,24 @@
 vagrant up
 ansible-playbook -u vagrant -i my.invent --private-key key/id_rsa main.yml
 
-Стенд состоит из etcd, postgresql{1..2} haproxy машин, данный стенд демонстрирует
-автоматическое переключение лидера в кластере patroni при отказе текущего.
+
+
+TODO
+--
+kafka
+- apt install openjdk-11-jre-headless
+- wget https://downloads.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz && tar -xf kafka_2.13-3.0.0.tgz && cd kafka_2.13-3.0.0/
+- bin/zookeeper-server-start.sh config/zookeeper.properties &
+- bin/kafka-server-start.sh config/server.properties &
+- bin/kafka-topics.sh --create --topic nginx --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
+- bin/kafka-topics.sh --create --topic wordpress --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
+for check
+bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
+
+
+
+
+
+
+nginx
+- sudo apt update && sudo apt install nginx
