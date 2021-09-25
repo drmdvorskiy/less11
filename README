@@ -16,10 +16,61 @@ kafka
 for check
 bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
 
+/etc/filebeat/filebeat.yml
+filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/syslog
+    #- c:\programdata\elasticsearch\logs\*
+
+
+# ------------------------------ Kafka Output -------------------------------
+output.kafka:
+  # The Logstash hosts
+  hosts: ["192.168.6.3:9092"]
+
+  # message topic selection + partitioning
+  topic: 'nginx'
+  partition.round_robin:
+          reachable_only: false
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
 
 
 
 
 
 nginx
-- sudo apt update && sudo apt install nginx
+- curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb && dpkg -i filebeat-7.15.0-amd64.deb
+
+
+- sudo apt update && sudo apt install nginx mariadb-server mariadb-client
+
+
+
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
+
+
+
+
+
+
+
+
+
+
+
+
+https://infoit.com.ua/linux/ubuntu/kak-ustanovit-wordpress-na-ubuntu-20-04-18-04-s-nginx-i-lets-encrypt/
