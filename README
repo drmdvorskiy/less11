@@ -16,6 +16,18 @@ kafka
 for check
 bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
 
+
+--
+nginx
+- curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb && dpkg -i filebeat-7.15.0-amd64.deb
+- sudo apt update && sudo apt install nginx
+
+
+
+
+
+
+
 /etc/filebeat/filebeat.yml
 filebeat.inputs:
 
@@ -50,27 +62,9 @@ output.kafka:
 
 
 
-
-nginx
-- curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb && dpkg -i filebeat-7.15.0-amd64.deb
-
-
-- sudo apt update && sudo apt install nginx mariadb-server mariadb-client
-
-
-
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
-bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
-
-
-
-
-
-
-
-
-
-
-
-
+--
+CHECK
+- sudo filebeat test config
+- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
+- bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
 https://infoit.com.ua/linux/ubuntu/kak-ustanovit-wordpress-na-ubuntu-20-04-18-04-s-nginx-i-lets-encrypt/
