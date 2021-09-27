@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
     nginx.vm.provider "virtualbox" do |v|
       v.memory = 512
       v.cpus = 1
+    end
   end
 
   config.vm.define "kafka" do |kafka|
@@ -23,7 +24,7 @@ Vagrant.configure("2") do |config|
     kafka.vm.provider "virtualbox" do |v|
       v.memory = 1280
       v.cpus = 1
-
+    end
   end
 
   config.vm.define "wordpress" do |wordpress|
@@ -34,6 +35,7 @@ Vagrant.configure("2") do |config|
     wordpress.vm.provider "virtualbox" do |v|
       v.memory = 512
       v.cpus = 1
+    end
   end
 
   config.vm.define "elk" do |elk|
@@ -44,6 +46,7 @@ Vagrant.configure("2") do |config|
     elk.vm.provider "virtualbox" do |v|
       v.memory = 512
       v.cpus = 1
+    end
   end
 
 end
