@@ -6,58 +6,42 @@ ansible-playbook -u vagrant -i my.invent --private-key key/id_rsa main.yml
 
 TODO
 --
-kafka
+KAFKA
 - apt install openjdk-11-jre-headless
 - wget https://downloads.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz && tar -xf kafka_2.13-3.0.0.tgz && cd kafka_2.13-3.0.0/
 - bin/zookeeper-server-start.sh config/zookeeper.properties &
 - bin/kafka-server-start.sh config/server.properties &
 - bin/kafka-topics.sh --create --topic nginx --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
 - bin/kafka-topics.sh --create --topic wordpress --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
-for check
-bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
-
 
 --
-nginx
+NGINX
 - curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb && dpkg -i filebeat-7.15.0-amd64.deb
 - sudo apt update && sudo apt install nginx
-
-
-
-
-
-
-
 /etc/filebeat/filebeat.yml
-filebeat.inputs:
+/etc/hosts
 
-# Each - is an input. Most options can be set at the input level, so
-# you can use different inputs for various configurations.
-# Below are the input specific configurations.
+--
+ELK
+- apt install openjdk-11-jre-headless
+- curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+- echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+- sudo apt update
+- sudo apt install elasticsearch
+- sudo systemctl start elasticsearch
+- sudo systemctl enable elasticsearch
+- sudo apt install kibana
+sudo vim /etc/kibana/kibana.yml
+server.port: 5601
+server.host: "192.168.6.4"
+elasticsearch.hosts: ["http://localhost:9200"]
+- sudo systemctl enable kibana
+- sudo systemctl start kibana
+- sudo apt install logstash
+- sudo systemctl start logstash
+- sudo systemctl enable logstash
+-
 
-- type: log
-
-  # Change to true to enable this input configuration.
-  enabled: true
-
-  # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-    - /var/log/syslog
-    #- c:\programdata\elasticsearch\logs\*
-
-
-# ------------------------------ Kafka Output -------------------------------
-output.kafka:
-  # The Logstash hosts
-  hosts: ["192.168.6.3:9092"]
-
-  # message topic selection + partitioning
-  topic: 'nginx'
-  partition.round_robin:
-          reachable_only: false
-  required_acks: 1
-  compression: gzip
-  max_message_bytes: 1000000
 
 
 
@@ -67,4 +51,7 @@ CHECK
 - sudo filebeat test config
 - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
 - bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
+- bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
 https://infoit.com.ua/linux/ubuntu/kak-ustanovit-wordpress-na-ubuntu-20-04-18-04-s-nginx-i-lets-encrypt/
+https://www.digitalocean.com/community/tutorials/how-to-install-apache-kafka-on-ubuntu-20-04
+https://linoxide.com/install-elk-on-ubuntu/
