@@ -40,7 +40,11 @@ elasticsearch.hosts: ["http://localhost:9200"]
 - sudo apt install logstash
 - sudo systemctl start logstash
 - sudo systemctl enable logstash
--
+192.168.6.3	kafka >> /etc/hosts
+/etc/logstash/conf.d/pipeline.conf
+
+
+
 
 
 
