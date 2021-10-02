@@ -61,3 +61,6 @@
 
 - name: Set up wp-config
   template: src="files/wp-config.php.j2" dest="/var/www/{{ http_host }}/wordpress/wp-config.php"
+
+- name: Install filebeat
+  apt: deb="https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb"

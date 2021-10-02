@@ -4,7 +4,7 @@ filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - /var/www/less11/wordpress/*.log
+    - /var/www/less11/wordpress/wp-content/*.log
   fields:
      topic: 'wordpress'
 
