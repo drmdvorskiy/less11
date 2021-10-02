@@ -1,0 +1,5 @@
+---
+- name: install wordpress
+  become: true
+  hosts: wordpress
+  include_role: name=install-wordpress

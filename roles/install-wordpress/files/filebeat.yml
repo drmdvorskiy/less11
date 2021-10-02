@@ -4,13 +4,7 @@ filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - /var/log/nginx/*
-  fields:
-     topic: 'nginx'
-- type: log
-  enabled: true
-  paths:
-    - /home/vagrant/my.log
+    - /var/www/less11/wordpress/*.log
   fields:
      topic: 'wordpress'
 
