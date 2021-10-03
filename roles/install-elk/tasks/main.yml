@@ -1,0 +1,32 @@
+---
+- name: Install nginx
+  apt: name=openjdk-11-jre-headless state=present update_cache=yes
+
+- name: Add Apt signing key
+  apt_key: url="https://artifacts.elastic.co/GPG-KEY-elasticsearch" state=present
+
+- name: Adds percona repositories
+  apt_repository: repo="deb https://artifacts.elastic.co/packages/7.x/apt stable main" state=present
+
+- name: Install elk
+  apt: name="{{ item }}" state=present update_cache=yes
+  loop:
+    - elasticsearch
+    - kibana
+    - logstash
+
+- name: Configure kibana
+  copy: src="roles/install-elk/files/kibana.yml" dest="/etc/kibana/"
+
+- name: Configure logstash
+  copy: src="roles/install-elk/files/pipeline.conf" dest="/etc/logstash/conf.d/"
+
+- name: Change hosts file
+  lineinfile: path="/etc/hosts" line="192.168.6.3	kafka"
+
+- name: Start elk
+  systemd: name="{{ item }}" enabled=yes state=started
+  loop:
+    - elasticsearch
+    - kibana
+    - logstash

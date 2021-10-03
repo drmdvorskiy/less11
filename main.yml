@@ -3,3 +3,18 @@
   become: true
   hosts: wordpress
   include_role: name=install-wordpress
+
+- name: install nginx
+  become: true
+  hosts: nginx
+  include_role: name=install-inginx
+
+- name: install kafka
+  become: true
+  hosts: kafka
+  include_role: name=install-kafka
+
+- name: install elk
+  become: true
+  hosts: elk
+  include_role: name=install-elk

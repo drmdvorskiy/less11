@@ -64,3 +64,12 @@
 
 - name: Install filebeat
   apt: deb="https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb"
+
+- name: Change hosts file
+  lineinfile: path="/etc/hosts" line="192.168.6.3	kafka"
+
+- name: Configure filebeat
+  copy: src="roles/install-wordpress/files/filebeat.yml" dest="/etc/filebeat/"
+
+- name: Start filebeat.service
+  systemd: name=filebeat.service enabled=yes state=started

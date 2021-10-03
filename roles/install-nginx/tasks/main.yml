@@ -1,0 +1,18 @@
+---
+- name: Install nginx
+  apt: name=nginx state=present update_cache=yes
+
+- name: Start nginx.service
+  systemd: name=nginx.service enabled=yes state=started
+
+- name: Install filebeat
+  apt: deb="https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb"
+
+- name: Change hosts file
+  lineinfile: path="/etc/hosts" line="192.168.6.3	kafka"
+
+- name: Configure filebeat
+  copy: src="roles/install-nginx/files/filebeat.yml" dest="/etc/filebeat/"
+
+- name: Start filebeat.service
+  systemd: name=filebeat.service enabled=yes state=started
