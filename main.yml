@@ -1,15 +1,15 @@
 ---
-- name: install wordpress
-  become: true
-  hosts: wordpress
-  roles:
-    - role: install-wordpress
-
-- name: install nginx
-  become: true
-  hosts: nginx
-  roles:
-    - role: install-nginx
+# - name: install wordpress
+#   become: true
+#   hosts: wordpress
+#   roles:
+#     - role: install-wordpress
+#
+# - name: install nginx
+#   become: true
+#   hosts: nginx
+#   roles:
+#     - role: install-nginx
 
 - name: install kafka
   become: true

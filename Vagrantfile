@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
     wordpress.vm.network "private_network", ip: "192.168.6.5", hostname: true
     wordpress.vm.synced_folder ".", "/vagrant", disabled: true
     wordpress.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 4096
       v.cpus = 1
     end
   end

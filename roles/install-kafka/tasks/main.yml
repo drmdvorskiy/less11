@@ -1,9 +1,9 @@
 ---
-- name: Install nginx
+- name: Install openjdk
   apt: name=openjdk-11-jre-headless state=present update_cache=yes
 
 - name: Download and unpack latest kafka
-  unarchive: src="https://downloads.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz" dest="/home/vagrant" remote_src=yes creates="/home/vagrant/kafka"
+  unarchive: src="https://downloads.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz" dest="/home/vagrant" remote_src=yes
 
 - name: Copy zookeeper.service
   copy: src="roles/install-kafka/files/zookeeper.service" dest="/etc/systemd/system/"
@@ -14,11 +14,11 @@
 - name: Start kafka|zokeeper.service
   systemd: name={{ item }} enabled=yes state=started daemon_reload=yes
   loop:
-    - zokeeper.service
+    - zookeeper.service
     - kafka.service
 
 - name: Create topics
-  shell: {{ item }}
+  shell: "{{ item }}"
   loop:
-    - "/home/vagrant/kafka/bin/kafka-topics.sh --create --topic nginx --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092"
-    - "/home/vagrant/kafka/bin/kafka-topics.sh --create --topic wordpress --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092"
+    - "/home/vagrant/kafka_2.13-3.0.0/bin/kafka-topics.sh --create --topic nginx --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092"
+    - "/home/vagrant/kafka_2.13-3.0.0/bin/kafka-topics.sh --create --topic wordpress --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092"
