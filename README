@@ -1,5 +1,6 @@
 - перейти в директорию с проектом и запустить
 vagrant up
+vagrant destroy -f
 ansible-playbook -u vagrant -i my.invent --private-key key/id_rsa main.yml
 
 
@@ -44,13 +45,6 @@ elasticsearch.hosts: ["http://localhost:9200"]
 /etc/logstash/conf.d/pipeline.conf
 
 
---
-wordpress
-http://192.168.6.5
-
-
-
-
 
 --
 CHECK
@@ -58,6 +52,6 @@ CHECK
 - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
 - bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
 - bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
-https://infoit.com.ua/linux/ubuntu/kak-ustanovit-wordpress-na-ubuntu-20-04-18-04-s-nginx-i-lets-encrypt/
-https://www.digitalocean.com/community/tutorials/how-to-install-apache-kafka-on-ubuntu-20-04
-https://linoxide.com/install-elk-on-ubuntu/
+
+wordpress
+http://192.168.6.5
