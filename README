@@ -1,57 +1,17 @@
 - перейти в директорию с проектом и запустить
 vagrant up
-vagrant destroy -f
 ansible-playbook -u vagrant -i my.invent --private-key key/id_rsa main.yml
 
+#######vagrant destroy -f (для удаления)
+
+- потом из дериктории проекта ssh vagrant@192.168.6.5 'sudo systemctl stop mysql' (быстрый способ получить лог ошибки в wordpress)
+- зайти на http://192.168.6.5 и получить ошибку
+- ssh vagrant@192.168.6.5 'sudo systemctl start mysql'
+- зайти на http://192.168.6.4:5601/ и сделать 2 индекса (nginx*, wordpress*) собственно на них и сматчатся логи
+- в брайзере открыть страницу по адресу http://192.168.6.2/ (приветствие nginx)
 
 
-TODO
+(для реализации схемы на файлбите были добавлены дополнительные поля, так он пишет в нужный топик,
+а на логсташе припысиваются "типы", по которым потом идет сравнение для записи в нужный индекс)
 --
-KAFKA
-- apt install openjdk-11-jre-headless
-- wget https://downloads.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz && tar -xf kafka_2.13-3.0.0.tgz && cd kafka_2.13-3.0.0/
-- bin/zookeeper-server-start.sh config/zookeeper.properties &
-- bin/kafka-server-start.sh config/server.properties &
-- bin/kafka-topics.sh --create --topic nginx --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
-- bin/kafka-topics.sh --create --topic wordpress --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
-
---
-NGINX
-- curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.0-amd64.deb && dpkg -i filebeat-7.15.0-amd64.deb
-- sudo apt update && sudo apt install nginx
-/etc/filebeat/filebeat.yml
-/etc/hosts
-
---
-ELK
-- apt install openjdk-11-jre-headless
-- curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-- echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
-- sudo apt update
-- sudo apt install elasticsearch
-- sudo systemctl start elasticsearch
-- sudo systemctl enable elasticsearch
-- sudo apt install kibana
-sudo vim /etc/kibana/kibana.yml
-server.port: 5601
-server.host: "192.168.6.4"
-elasticsearch.hosts: ["http://localhost:9200"]
-- sudo systemctl enable kibana
-- sudo systemctl start kibana
-- sudo apt install logstash
-- sudo systemctl start logstash
-- sudo systemctl enable logstash
-192.168.6.3	kafka >> /etc/hosts
-/etc/logstash/conf.d/pipeline.conf
-
-
-
---
-CHECK
-- sudo filebeat test config
-- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic nginx --from-beginning
-- bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic nginx
-- bin/kafka-topics.sh --describe --topic nginx --bootstrap-server localhost:9092 && bin/kafka-topics.sh --describe --topic wordpress --bootstrap-server localhost:9092
-
-wordpress
-http://192.168.6.5
+p.s. фотки прилагаю.

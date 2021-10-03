@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     nginx.vm.network "private_network", ip: "192.168.6.2", hostname: true
     nginx.vm.synced_folder ".", "/vagrant", disabled: true
     nginx.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 2048
       v.cpus = 1
     end
   end
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     kafka.vm.network "private_network", ip: "192.168.6.3", hostname: true
     kafka.vm.synced_folder ".", "/vagrant", disabled: true
     kafka.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 3072
       v.cpus = 1
     end
   end
