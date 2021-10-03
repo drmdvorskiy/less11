@@ -9,7 +9,7 @@
   become: true
   hosts: nginx
   roles:
-    - role: install-inginx
+    - role: install-nginx
 
 - name: install kafka
   become: true
