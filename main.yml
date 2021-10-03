@@ -2,19 +2,23 @@
 - name: install wordpress
   become: true
   hosts: wordpress
-  include_role: name=install-wordpress
+  roles:
+    - role: install-wordpress
 
 - name: install nginx
   become: true
   hosts: nginx
-  include_role: name=install-inginx
+  roles:
+    - role: install-inginx
 
 - name: install kafka
   become: true
   hosts: kafka
-  include_role: name=install-kafka
+  roles:
+    - role: install-kafka
 
 - name: install elk
   become: true
   hosts: elk
-  include_role: name=install-elk
+  roles:
+    - role: install-elk
